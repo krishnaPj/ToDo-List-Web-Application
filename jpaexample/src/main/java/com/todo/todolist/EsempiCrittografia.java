@@ -22,10 +22,6 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 
-/**
- *
- * @author docente
- */
 public class EsempiCrittografia {
 
     private static final String SYM_ALGORITHM = "AES";

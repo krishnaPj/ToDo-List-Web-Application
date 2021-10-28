@@ -2,11 +2,9 @@ package com.todo.todolist;
 
 import java.io.IOException;
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,13 +16,12 @@ import net.agmsolutions.entities.SampleEntity;
 @WebServlet(name = "ChangePassword", value = "/ChangePassword")
 public class ChangePassword  extends HttpServlet {
 	
-	private static final long serialVersionUID = -1956077038103846785L;
+	private static final long serialVersionUID = 1L;
     private String message = "";
 	
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	EntityManager em = null;
-    	
         try {
             String email = request.getParameter("email");
             String password = request.getParameter("password");
@@ -58,5 +55,4 @@ public class ChangePassword  extends HttpServlet {
             e.printStackTrace();
         }
     }
-	
 }

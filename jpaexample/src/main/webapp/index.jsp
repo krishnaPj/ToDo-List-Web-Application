@@ -1,2 +1,2 @@
-<% response.sendRedirect("register.jsp"); %>
+<% response.sendRedirect("login.jsp"); %>
 

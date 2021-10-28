@@ -4,7 +4,6 @@ package com.todo.todolist;
 
 import net.agmsolutions.app.PersistenceUtility;
 import net.agmsolutions.entities.SampleEntity;
-
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.ServletException;
@@ -22,7 +21,7 @@ import java.util.Properties;
 @WebServlet(name = "RegisterServlet", value = "/register")
 public class Register extends HttpServlet {
 
-	private static final long serialVersionUID = -1530963442563580851L;
+	private static final long serialVersionUID = 1L;
 
 	// Application Properties class used for read important data
 	

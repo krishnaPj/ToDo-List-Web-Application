@@ -2,7 +2,6 @@ package com.todo.todolist;
 
 import net.agmsolutions.app.PersistenceUtility;
 import net.agmsolutions.entities.SampleEntity;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,13 +16,9 @@ import javax.persistence.TypedQuery;
 
 @WebServlet(name = "LoginServlet", value = "/LoginServlet")
 public class Login extends HttpServlet {
-	
-	private static final long serialVersionUID = -1530963442563580851L;
 
-	// Application Properties class used for read important data
-	
-	private ApplicationProperties appProp = ApplicationProperties.getInstance();
-	private static final Logger LOGGER = LoggerFactory.getLogger(LoginServlet.class);
+	private static final long serialVersionUID = 1L;
+	private static final Logger LOGGER = LoggerFactory.getLogger(Login.class);
 	
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

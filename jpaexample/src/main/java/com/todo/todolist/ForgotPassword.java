@@ -1,16 +1,9 @@
 package com.todo.todolist;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
-
 import javax.crypto.KeyGenerator;
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -23,7 +16,6 @@ import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -37,7 +29,7 @@ public class ForgotPassword extends HttpServlet{
 	
 	private static final long serialVersionUID = -1956077038103846785L;
 	private ApplicationProperties appProp = ApplicationProperties.getInstance();
-    private String message = "", email = "", secretKey = "";
+    private String message = "", secretKey = "";
 	
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
     	EntityManager em = null;
@@ -118,7 +110,7 @@ public class ForgotPassword extends HttpServlet{
                 request.getRequestDispatcher("forgot-password.jsp").forward(request, response);
             }
         } catch (MessagingException | NoSuchAlgorithmException e) {
-            System.err.println("Errors w/ur code!");
+        	e.printStackTrace();
         }
     }
 
