@@ -42,7 +42,8 @@
                                         <h1 class="h4 text-gray-900 mb-2">Forgot Your Password?</h1>
                                         <p class="mb-4">We get it, stuff happens. Just enter your email address below and we'll send you a link to reset your password!</p>
                                     </div>
-                                    <form class="user" action="/WalletControl_war_exploded/ForgotServlet" method="post">
+                                    <form class="user" action="./ForgotServlet" method="post">
+                                       	
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter Email Address...">
                                         </div>
@@ -53,13 +54,6 @@
                                         }
                                         %></span>
                                     </form>
-                                    <hr>
-                                    <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
-                                    </div>
-                                    <div class="text-center">
-                                        <a class="small" href="login.html">Already have an account? Login!</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>

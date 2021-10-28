@@ -21,6 +21,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import jakarta.servlet.ServletException;
@@ -36,9 +37,34 @@ public class ForgotPassword extends HttpServlet{
 	
 	private static final long serialVersionUID = -1956077038103846785L;
 	private ApplicationProperties appProp = ApplicationProperties.getInstance();
-    private String message = "", secretKey = "";
+    private String message = "", email = "", secretKey = "";
 	
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {}
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+    	EntityManager em = null;
+    	
+        try {
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+            String repeatpassword = request.getParameter("repeatPassword");
+            
+            if(password.equals(repeatpassword)) {
+            	em = PersistenceUtility.createEntityManager();
+            	em.getTransaction().begin();
+            	Query query = em.createQuery("UPDATE test t SET password = :pwd WHERE email = :email");      
+            	query.setParameter("password", password);
+            	query.setParameter("email", email);
+            	em.getTransaction().commit();
+            	request.getRequestDispatcher("login.jsp");
+            }
+            else {
+            	message = "Passwords not same";
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("change-password.jsp").forward(request, response);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -80,7 +106,7 @@ public class ForgotPassword extends HttpServlet{
 				
 				String HTMLCode =
 						"<h3>Click this link to change your password: "
-								+ "thank you.</h3><a href='" + appProp.getUriServer() + "/change-password?secret=" + this.secretKey + "'>"
+								+ "thank you.</h3><a href='" + appProp.getUriServer() + "/change-password.jsp?email=" + email + "'>"
 								+"Change password" +
 								"</a>";
 				mimeMessage.setContent(HTMLCode, "text/html; charset=utf-8");
