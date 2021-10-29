@@ -4,11 +4,7 @@ import net.agmsolutions.app.PersistenceUtility;
 import net.agmsolutions.entities.SampleEntity;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -18,19 +14,15 @@ import javax.persistence.TypedQuery;
 public class Login extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOGGER = LoggerFactory.getLogger(Login.class);
+	// private static final Logger LOGGER = LoggerFactory.getLogger(Login.class);
 	
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LOGGER.info("Received login request");
-        response.setContentType("text/html");
-
         String message = "", name = "", surname = "";
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         
-		EntityManager em = null;
-        
+		EntityManager em = null;      
         try {
         	em = PersistenceUtility.createEntityManager();
         	TypedQuery<SampleEntity> tq = em.createQuery("SELECT t FROM test t WHERE t.email = :email", SampleEntity.class);
@@ -47,17 +39,17 @@ public class Login extends HttpServlet {
                     request.getRequestDispatcher("main.jsp").forward(request, response);
                 }
                 else {
-                	request.setAttribute("message", "Error during login: invalid credentials :(");
+                	request.setAttribute("message", "Error during login: invalid password");
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                 }
             }
         	else {
-        		request.setAttribute("message", "Error during login: invalid credentials :(");
+        		request.setAttribute("message", "Error during login: invalid email");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
         	}
         	
-        } catch (Exception e) {
-            LOGGER.error("Error during login :(", e);
+        } catch (Exception Exception) {
+        	Exception.printStackTrace();
         }
     }
 	

@@ -13,6 +13,6 @@
 		<input required type="password" id="repeatPassword" name="repeatPassword" placeholder="Repeat Password"> 
 		<input type="submit" value="Create Account">
 	</form>
-	<a class="small" href="login.jsp">Already have an account? Login!</a>
+	<a href="login.jsp">Already have an account? Login!</a>
 </body>
 </html>
