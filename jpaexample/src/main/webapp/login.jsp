@@ -23,17 +23,19 @@
 	    </li>
 	  </ul>
 	</nav>
-	<form class="user" action="./LoginServlet" method="POST">
-		<input type="email" required name="email" id="email" placeholder="Enter Email Address">
-		<input type="password" required name="password" id="password" placeholder="Password">
-		<button>Login</button>
-		<span style="color: red">
-			<% Object message = request.getAttribute("message");
-            if(message != null) { %><%= message %> <% } %>
-		</span>
-	</form>
-	<a href="register.jsp">Not have an account? Join us</a>
-	<a href="forgot-password.jsp">Forgot your password? Change it</a>
+	<div class="container">
+		<form class="form-signin" action="./LoginServlet" method="POST">
+			<input class="form-control" style="width:600px" type="email" required name="email" id="email" placeholder="Enter Email Address">
+			<input class="form-control" type="password" required name="password" id="password" placeholder="Password">
+			<button class="btn form-control" style="color: #fff; background-color: #743CCE;">Login</button>
+			<span style="color: red">
+				<% Object message = request.getAttribute("message");
+	            if(message != null) { %><%= message %> <% } %>
+			</span>
+		</form>
+		<a href="register.jsp">Not have an account? Join us</a>
+		<a href="forgot-password.jsp">Forgot your password? Change it</a>
+	</div>
 </body>
 
 </html>
