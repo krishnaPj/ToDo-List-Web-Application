@@ -1,2 +1,4 @@
 # ToDo-List-Web-Application
-ToDo List Web Application
+
+****For now, only the Login, Registration and Forgot Password pages work.****
+
