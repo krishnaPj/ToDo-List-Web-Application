@@ -6,6 +6,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import jakarta.servlet.ServletException;
 import javax.persistence.EntityManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.crypto.KeyGenerator;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -18,6 +20,7 @@ import java.util.Properties;
 public class Register extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+	private static final Logger LOGGER = LoggerFactory.getLogger(Register.class);
 	private ApplicationProperties appProp = ApplicationProperties.getInstance();
 	private String name = "", surname = "", email = "", inputPassword = "", repeatPassword = "", secretKey = "";
 
@@ -36,7 +39,7 @@ public class Register extends HttpServlet {
 				em.getTransaction().commit();
 			}
 			catch (Exception Exception) {
-				Exception.printStackTrace();
+				LOGGER.error("Error inserting data into the table: " + Exception.getStackTrace().toString());
 				if (em != null && em.getTransaction().isActive()) em.getTransaction().rollback();
 			}
 		}
@@ -50,7 +53,8 @@ public class Register extends HttpServlet {
 			request.getServletContext().getRequestDispatcher("/login.jsp" ).include(request,response);
 		}
 		else {
-			throw new RuntimeException("Wrong secret key");
+			LOGGER.error("The secret code is invalid: ", new RuntimeException());
+			
 		}
 	}
 
@@ -71,7 +75,7 @@ public class Register extends HttpServlet {
 		Session messageSession = Session.getDefaultInstance(properties, new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				try { return new PasswordAuthentication(appProp.getUserMail(), appProp.getPswMail()); }
-				catch (IOException IOException) { IOException.printStackTrace(); }
+				catch (IOException IOException) { LOGGER.error("Unable to authenticate Google Account: ", IOException); }
 				return null;
 			}
 		});
@@ -83,16 +87,15 @@ public class Register extends HttpServlet {
 				mimeMessage.setRecipients(Message.RecipientType.TO,InternetAddress.parse(email));
 				KeyGenerator keyGen = KeyGenerator.getInstance("AES");
 				keyGen.init(128);
-				secretKey = keyGen.generateKey().toString();
+				secretKey = PasswordManager.createHash(keyGen.generateKey().toString()).split(":")[1];
 				String HTMLCode =
 						"<h3>By clicking on the link you accept the processing of your data for access to our service, "
 								+ "thank you.</h3><a href='" + appProp.getUriServer() + "/register?secret=" + this.secretKey + "'>"
-								+"Confirm registration" +
-								"</a>";
+								+"Confirm registration</a>";
 				mimeMessage.setContent(HTMLCode, "text/html; charset=utf-8");
 				Transport.send(mimeMessage);
 			} catch (MessagingException | NoSuchAlgorithmException Exceptions) {
-				Exceptions.printStackTrace();
+				LOGGER.error("Error while sending the e-mail: ", Exceptions);
 			}
 		}
 	}

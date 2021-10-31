@@ -1,6 +1,8 @@
 package com.todo.todolist;
 
 import net.agmsolutions.app.PersistenceUtility;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import net.agmsolutions.entities.SampleEntity;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,7 +16,7 @@ import javax.persistence.TypedQuery;
 public class Login extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	// private static final Logger LOGGER = LoggerFactory.getLogger(Login.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Login.class);
 	
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -49,7 +51,7 @@ public class Login extends HttpServlet {
         	}
         	
         } catch (Exception Exception) {
-        	Exception.printStackTrace();
+        	LOGGER.error("Error during login: ", Exception);
         }
     }
 	

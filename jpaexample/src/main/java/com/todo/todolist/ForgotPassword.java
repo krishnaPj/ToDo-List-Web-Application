@@ -8,6 +8,10 @@ import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.persistence.*;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -16,6 +20,7 @@ import jakarta.servlet.http.*;
 public class ForgotPassword extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
+	private static final Logger LOGGER = LoggerFactory.getLogger(ForgotPassword.class);
 	private ApplicationProperties appProp = ApplicationProperties.getInstance();
     private String message = "";
     
@@ -30,7 +35,7 @@ public class ForgotPassword extends HttpServlet {
 		Session messageSession = Session.getDefaultInstance(properties, new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				try { return new PasswordAuthentication(appProp.getUserMail(), appProp.getPswMail()); }
-				catch (IOException IOException) { IOException.printStackTrace(); }
+				catch (IOException IOException) { LOGGER.error("Unable to authenticate Google Account: ", IOException); }
 				return null;
 			}
 		});
@@ -59,7 +64,7 @@ public class ForgotPassword extends HttpServlet {
                 request.getRequestDispatcher("forgot-password.jsp").forward(request, response);
             }
         } catch (MessagingException MessagingException) {
-        	MessagingException.printStackTrace();
+        	LOGGER.error("Error while sending the e-mail: ", MessagingException);
         }
     }
 

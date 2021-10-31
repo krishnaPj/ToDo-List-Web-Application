@@ -7,6 +7,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -15,15 +19,16 @@ import jakarta.servlet.http.*;
 public class ChangePassword extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
+	private static final Logger LOGGER = LoggerFactory.getLogger(ChangePassword.class);
     private String message = "";
 	
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	EntityManager em = null;
         try {
-            String email = request.getParameter("email");
-            String password = request.getParameter("password");
-            String repeatpassword = request.getParameter("repeatPassword");
+            String email = request.getParameter("email"),
+            	   password = request.getParameter("password"),
+            	   repeatpassword = request.getParameter("repeatPassword");
             
             if(password.equals(repeatpassword)) {
             	em = PersistenceUtility.createEntityManager();
@@ -48,7 +53,7 @@ public class ChangePassword extends HttpServlet {
                 request.getRequestDispatcher("change-password.jsp").forward(request, response);
             }
         } catch (Exception Exception) {
-        	Exception.printStackTrace();
+        	LOGGER.error("Error while changing password: ", Exception);
         }
     }
 }
