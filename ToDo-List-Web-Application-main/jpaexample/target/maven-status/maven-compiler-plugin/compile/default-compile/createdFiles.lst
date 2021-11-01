@@ -1,0 +1,12 @@
+com\todo\todolist\EsempiCrittografia.class
+com\todo\todolist\RegisterServlet$1.class
+net\agmsolutions\entities\SampleEntity.class
+com\todo\todolist\PasswordManager.class
+com\todo\todolist\RegisterServlet.class
+com\todo\todolist\LoginServlet.class
+net\agmsolutions\app\PersistenceUtility.class
+net\agmsolutions\entities\SampleEntity2.class
+net\agmsolutions\app\Address.class
+net\agmsolutions\app\Application.class
+com\todo\todolist\ApplicationProperties.class
+com\todo\todolist\ForgotServlet.class

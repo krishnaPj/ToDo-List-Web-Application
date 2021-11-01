@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE project>
+<Configuration status="warn">
+	<Properties>
+		<Property name="basePath">C:\\tmp\\</Property>
+	</Properties>
+
+	<Appenders>
+		<RollingFile name="fileLogger"
+			fileName="${basePath}/todolist-logging.log"
+			filePattern="${basePath}/simplewebapp-%d{yyyy-MM-dd}.log">
+			<PatternLayout>
+				<pattern>[%d{hh:mm:ss.SSS}] [%t] %-5level %logger{36} - %msg%n
+				</pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="true" />
+			</Policies>
+		</RollingFile>
+
+	</Appenders>
+	<Loggers>
+		<Root level="ALL" additivity="true">
+			<appender-ref ref="fileLogger" />
+		</Root>
+	</Loggers>
+</Configuration>
