@@ -4,8 +4,7 @@
 <title>TDL - Forgot Password</title>
 </head>
 <body>
-	<h1>Forgot Your Password?</h1>
-	<p>Just enter your email address below and we'll send you a link to reset your password</p>
+	<h1>Change password here</h1>
 	<form action="./ChangePassword" method="POST">
 		<input type="hidden" value="<%= request.getParameter("email") %>" name="email" id="email" />
 		<input type="password" name="password" id="password" placeholder="Enter the new password">

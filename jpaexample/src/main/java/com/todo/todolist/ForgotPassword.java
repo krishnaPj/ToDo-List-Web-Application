@@ -4,9 +4,8 @@ import net.agmsolutions.app.PersistenceUtility;
 import net.agmsolutions.entities.SampleEntity;
 import java.io.IOException;
 import java.util.List;
-import java.util.Properties;
+
 import javax.mail.*;
-import javax.mail.internet.*;
 import javax.persistence.*;
 
 import org.slf4j.Logger;
@@ -26,19 +25,6 @@ public class ForgotPassword extends HttpServlet {
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Properties properties = System.getProperties();
-		properties.put("mail.smtp.auth", "true");
-		properties.put("mail.smtp.starttls.enable", "true");
-		properties.put("mail.smtp.port", "587");
-		properties.put("mail.smtp.host", "smtp.gmail.com");
-
-		Session messageSession = Session.getDefaultInstance(properties, new Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				try { return new PasswordAuthentication(appProp.getUserMail(), appProp.getPswMail()); }
-				catch (IOException IOException) { LOGGER.error("Unable to authenticate Google Account: ", IOException); }
-				return null;
-			}
-		});
 		
     	EntityManager em = null;
         try {
@@ -49,14 +35,10 @@ public class ForgotPassword extends HttpServlet {
         	List<SampleEntity> test = tq.getResultList();
         	
             if (!test.isEmpty()) {  
-            	MimeMessage mimeMessage = new MimeMessage(messageSession);
-				mimeMessage.setSubject("Password recovery");
-				mimeMessage.setRecipients(Message.RecipientType.TO,InternetAddress.parse(email));
 				String HTMLCode = "<h3>Click this link to change your password: </h3>"
 									+ "<a href='" + appProp.getUriServer() + "/change-password.jsp?email=" + email + "'>"
 									+ "Change password</a>";
-				mimeMessage.setContent(HTMLCode, "text/html; charset=utf-8");
-				Transport.send(mimeMessage);
+				ApplicationProperties.sendEmail("Password recovery", email, HTMLCode);
             }
             else {
             	message = "No existing mail in system!";

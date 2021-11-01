@@ -10,11 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.crypto.KeyGenerator;
 import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Properties;
 
 @WebServlet(name = "RegisterServlet", value = "/register")
 public class Register extends HttpServlet {
@@ -54,7 +51,6 @@ public class Register extends HttpServlet {
 		}
 		else {
 			LOGGER.error("The secret code is invalid: ", new RuntimeException());
-			
 		}
 	}
 
@@ -66,40 +62,19 @@ public class Register extends HttpServlet {
 		inputPassword = request.getParameter("inputPassword");
 		repeatPassword = request.getParameter("repeatPassword");
 
-		Properties properties = System.getProperties();
-		properties.put("mail.smtp.auth", "true");
-		properties.put("mail.smtp.starttls.enable", "true");
-		properties.put("mail.smtp.port", "587");
-		properties.put("mail.smtp.host", "smtp.gmail.com");
-		
-		Session messageSession = Session.getDefaultInstance(properties, new Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				try { return new PasswordAuthentication(appProp.getUserMail(), appProp.getPswMail()); }
-				catch (IOException IOException) { LOGGER.error("Unable to authenticate Google Account: ", IOException); }
-				return null;
-			}
-		});
-
 		if(inputPassword.equals(repeatPassword)){
 			try {
-				MimeMessage mimeMessage = new MimeMessage(messageSession);
-				mimeMessage.setSubject("Confirm user");
-				mimeMessage.setRecipients(Message.RecipientType.TO,InternetAddress.parse(email));
-				KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-				keyGen.init(128);
-				secretKey = PasswordManager.createHash(keyGen.generateKey().toString()).split(":")[1];
-				String HTMLCode =
+				secretKey = PasswordManager.createHash(KeyGenerator.getInstance("AES").generateKey().toString()).split(":")[1];
+				String content =
 						"<h3>By clicking on the link you accept the processing of your data for access to our service, "
 								+ "thank you.</h3><a href='" + appProp.getUriServer() + "/register?secret=" + this.secretKey + "'>"
 								+"Confirm registration</a>";
-				mimeMessage.setContent(HTMLCode, "text/html; charset=utf-8");
-				Transport.send(mimeMessage);
+				ApplicationProperties.sendEmail("Confirm new user registration", email, content);
+				request.setAttribute("message", "Hey " + name + "We have sent you a confirmation email: check your GMail");
+				request.getServletContext().getRequestDispatcher("/login.jsp" ).include(request,response);
 			} catch (MessagingException | NoSuchAlgorithmException Exceptions) {
 				LOGGER.error("Error while sending the e-mail: ", Exceptions);
 			}
 		}
 	}
-
-
-
 }
