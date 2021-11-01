@@ -24,7 +24,7 @@ public class ForgotPassword extends HttpServlet {
     private String message = "";
     
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
     	EntityManager em = null;
         try {
