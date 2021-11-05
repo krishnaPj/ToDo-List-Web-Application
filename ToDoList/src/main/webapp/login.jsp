@@ -11,31 +11,47 @@
 	  <link rel="preconnect" href="https://fonts.gstatic.com">
 	  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Zen+Kaku+Gothic+Antique&display=swap">
 	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+	  <link rel="stylesheet" href="style.css?v=1.0" type="text/css" />
 </head>
 <body class="noselect">
 	<nav class="navbar navbar-expand-sm justify-content-center" style="background-color: #743CCE;">
 	  <ul class="navbar-nav">
 	    <li class="nav-item">
-	      <p class="animate__animated animate__fadeInDown" style="color: white;font-family: 'Open Sans', sans-serif;
-	font-family: 'Zen Kaku Gothic Antique', sans-serif;font-size: 70px;">To
-		<img width="130px" height="130px" src="https://pngimage.net/wp-content/uploads/2018/05/do-icon-png-2.png"> 
-	Do</p>
+	      <p id="brand" class="animate__animated animate__fadeInDown" style="color: white;font-family: 'Open Sans', sans-serif;
+	font-family: 'Zen Kaku Gothic Antique', sans-serif;font-size: 30px;">Welcome back user</p>
 	    </li>
 	  </ul>
 	</nav>
-	<div class="container">
-		<form class="form-signin" action="LoginServlet" method="POST">
-			<input class="form-control" style="width:600px" type="email" required name="email" id="email" placeholder="Enter Email Address">
-			<input class="form-control" type="password" required name="password" id="password" placeholder="Password">
-			<button class="btn form-control" style="color: #fff; background-color: #743CCE;">Login</button>
-			<span style="color: red">
+	<form class="col-lg-6 offset-lg-3" action="LoginServlet" method="POST">
+   		<div class="row justify-content-center">
+   		<h1 class="text-center" style="margin-top: 40px; color: #743CCE;">Access to your personal area</h1><br>
+						<input style="color: #743CCE; margin-top: 40px;height:50px;" required class="form-control rounded-pill text-center" type="email" id="email" name="email"placeholder="Email Address">
+			<input style="color: #743CCE; margin-top: 40px;height:50px;" required class="form-control rounded-pill text-center" type="password" id="password" name="password" placeholder="Password">
+			<button style="margin-top: 40px;height:50px;background-color: #743CCE;" class="btn btn-primary rounded-pill" type="submit" value="Login">Login</button>
+			<a style="color: gray; margin-top:20px;" class="text-center" href="register.jsp">Not have an account? Join us</a>
+			<a style="color: gray;" class="text-center" href="forgot-password.jsp">Forgot your password? Change it</a>
+			<span class="text-center" style="color: red; font-weight: bold;margin-top: 30px;">
 				<% Object message = request.getAttribute("message");
 	            if(message != null) { %><%= message %> <% } %>
 			</span>
-		</form>
-		<a href="register.jsp">Not have an account? Join us</a>
-		<a href="forgot-password.jsp">Forgot your password? Change it</a>
-	</div>
+	   </div>
+ </form>
 </body>
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script>
+	function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+	async function demo() {
+	  await sleep(2000);
+	  $("#brand").removeClass("animate__animated animate__fadeInDown");
+	  $("#brand").addClass("animate__animated animate__fadeOutDown");
+	  await sleep(500);
+	  $("#brand").removeClass("animate__animated animate__fadeOutDown");
+	  $("#brand").addClass("animate__animated animate__fadeInDown");
+	  var div_data = "<a href='#'>To " + 
+			"<img width='30px' height='30px' src='https://pngimage.net/wp-content/uploads/2018/05/do-icon-png-2.png'>" + 
+		" Do</a>";
+		$("#brand").html(div_data);
+	}
+	demo();
+	</script>
 </html>

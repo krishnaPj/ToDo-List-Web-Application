@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import net.core.PersistenceUtility;
+import net.core.StartupListener;
 import net.entities.User;
 import net.utils.PasswordManager;
 import java.io.IOException;
@@ -35,8 +36,9 @@ public class Login extends HttpServlet {
                 if(PasswordManager.validatePassword(password, pwd)) {
                     name = test.get(0).getName();
                     surname = test.get(0).getSurname();
-                    message = name + " " + surname; 
-                    request.setAttribute("message", message);
+                    /*StartupListener.ck = new Cookie("id", String.valueOf(test.get(0).getId())); creating cookie object  
+                    response.addCookie(StartupListener.ck); adding cookie in the response  */
+                    request.setAttribute("message", name.substring(0, 1).toUpperCase() + name.substring(1));
                     request.getRequestDispatcher("main.jsp").forward(request, response);
                 }
                 else {
