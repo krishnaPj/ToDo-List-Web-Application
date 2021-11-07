@@ -22,8 +22,7 @@ public class Login extends HttpServlet {
 	
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String message = "", name = "", surname = "",
-        	   email = request.getParameter("email"), password = request.getParameter("password");
+        String name = "", email = request.getParameter("email"), password = request.getParameter("password");
 		EntityManager em = null;      
         try {
         	em = PersistenceUtility.createEntityManager();
@@ -35,7 +34,6 @@ public class Login extends HttpServlet {
                 String pwd = test.get(0).getPassword();
                 if(PasswordManager.validatePassword(password, pwd)) {
                     name = test.get(0).getName();
-                    surname = test.get(0).getSurname();
                     /*StartupListener.ck = new Cookie("id", String.valueOf(test.get(0).getId())); creating cookie object  
                     response.addCookie(StartupListener.ck); adding cookie in the response  */
                     request.setAttribute("message", name.substring(0, 1).toUpperCase() + name.substring(1));

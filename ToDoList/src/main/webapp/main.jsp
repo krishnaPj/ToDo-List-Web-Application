@@ -22,9 +22,9 @@ font-family: 'Zen Kaku Gothic Antique', sans-serif;font-size: 30px;">Hello <%=re
     </li>
   </ul>
 </nav>
-<form action="./Insert" method="POST" style="margin: 0 auto;width:650px; margin-top: 60px;">
+<form action="./InsertData" method="POST" style="margin: 0 auto;width:650px; margin-top: 60px;">
 <div class="input-group mb-3">
-  <input style="color: #743CCE;height:50px;" required type="text" class="form-control rounded-pill" placeholder="Insert some content">
+  <input id="content" name="content" style="color: #743CCE;height:50px;" required type="text" class="form-control rounded-pill" placeholder="Insert some content">
   <div class="input-group-append">
     <button style="height:50px;color:white;background-color:#743CCE;" class="btn btn-outline-secondary rounded-pill" type="button" id="button-addon2">Add item</button>
   </div>
@@ -32,7 +32,11 @@ font-family: 'Zen Kaku Gothic Antique', sans-serif;font-size: 30px;">Hello <%=re
 </form>
 <div class="card text-center mx-auto" style="width:600px;margin-top: 70px;">
   <div class="card-body">
-    <h5 class="card-title" style="color:#743CCE;">This is your first card</h5>
+    <h5 class="card-title" style="color:#743CCE;">			
+    <span class="text-center" style="color: #743CCE;">
+				<% Object message = request.getAttribute("content");
+	            if(message != null) { %><%= message %> <% } %>
+			</span></h5>
   </div>
   <div class="card-footer text-muted">
     2 days ago
