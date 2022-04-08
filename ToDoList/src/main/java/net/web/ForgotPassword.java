@@ -2,23 +2,28 @@ package net.web;
 
 import java.io.IOException;
 import java.util.List;
-import javax.mail.*;
-import javax.persistence.*;
+
+import javax.mail.MessagingException;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import net.core.PersistenceUtility;
 import net.entities.User;
 import net.utils.ApplicationProperties;
 
 @WebServlet(name = "ForgotServlet", value = "/ForgotServlet")
 public class ForgotPassword extends HttpServlet {
-	
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = LoggerFactory.getLogger(ForgotPassword.class);
-	private ApplicationProperties appProp = ApplicationProperties.getInstance();
+	private ApplicationProperties applicationProperties = ApplicationProperties.getInstance();
     private String message = "";
     
     @Override
@@ -32,8 +37,9 @@ public class ForgotPassword extends HttpServlet {
         	List<User> test = tq.getResultList();
         	
             if (!test.isEmpty()) {  
-				String HTMLCode = "<h3>Click this link to change your password: </h3><a href='" 
-								+ appProp.getUriServer() + "/change-password.jsp?email=" + email + "'>Change password</a>";
+				final String HTMLCode = "<h3>Click this link to change your password: </h3><a href='" 
+								+ applicationProperties.getUriServer() + "/change-password.jsp?email=" 
+								+ email + "'>Change password</a>";
 				ApplicationProperties.sendEmail("Password recovery", email, HTMLCode);
             }
             else {
@@ -41,8 +47,8 @@ public class ForgotPassword extends HttpServlet {
                 request.setAttribute("message", message);
                 request.getRequestDispatcher("forgot-password.jsp").forward(request, response);
             }
-        } catch (MessagingException MessagingException) {
-        	LOGGER.error("Error while sending the e-mail: ", MessagingException);
+        } catch (MessagingException messagingException) {
+        	LOGGER.error("Error while sending the e-mail: ", messagingException);
         }
     }
 

@@ -2,6 +2,7 @@ package net.utils;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
+
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
@@ -10,7 +11,9 @@ public final class PasswordManager {
 	public static final int SALT_BYTES = 24, HASH_BYTES = 24, NUMBER_OF_ALGORITHM_ITERATIONS = 20000,
 							INDEX_OF_NUMBER_OF_ITERATIONS = 0, INDEX_OF_SALT = 1, INDEX_OF_HASH = 2;
 
-	public static String createHash(String password) { return createHash(password.toCharArray()); }
+	public static String createHash(String password) { 
+		return createHash(password.toCharArray()); 
+	}
 
 	public static String createHash(char[] password) {
 		SecureRandom random = new SecureRandom();

@@ -1,3 +1,6 @@
 package net.entities;
 
-public enum UserStatus { NOT_CONFIRMED, CONFIRMED }
+public enum UserStatus { 
+	NOT_CONFIRMED, 
+	CONFIRMED 
+}
