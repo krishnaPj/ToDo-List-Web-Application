@@ -58,10 +58,6 @@ public class ForgotPassword extends HttpServlet {
                 request.setAttribute("message", "No account is associated with the provided email address.");
                 request.getRequestDispatcher("forgot-password.jsp").forward(request, response);
             }
-        } catch (MessagingException e) {
-            LOGGER.error("Error while sending recovery email: ", e);
-            request.setAttribute("message", "Failed to send recovery email. Please try again later.");
-            request.getRequestDispatcher("forgot-password.jsp").forward(request, response);
         } catch (Exception e) {
             LOGGER.error("Unexpected error during password recovery: ", e);
             request.setAttribute("message", "An unexpected error occurred. Please try again later.");

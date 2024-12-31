@@ -114,10 +114,6 @@ public class Register extends HttpServlet {
             request.setAttribute("message", "Registration successful! Please check your email to confirm your account.");
             request.getRequestDispatcher("login.jsp").forward(request, response);
 
-        } catch (MessagingException messagingException) {
-            LOGGER.error("Error while sending confirmation email: ", messagingException);
-            request.setAttribute("message", "Registration successful, but we couldn't send a confirmation email. Please try again later.");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
         } catch (Exception exception) {
             LOGGER.error("Error during registration: ", exception);
             request.setAttribute("message", "An error occurred during registration. Please try again.");

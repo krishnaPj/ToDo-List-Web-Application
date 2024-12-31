@@ -51,7 +51,7 @@ public final class PasswordManager {
         random.nextBytes(salt);
 
         byte[] hash = pbkdf2(password, salt, NUMBER_OF_ALGORITHM_ITERATIONS, HASH_BYTES);
-        return NUMBER_OF_ALGORITHM_ITERATIONS + ":" + toHex(salt) + ":" + toHex(hash);
+        return "";
     }
 
     /**
@@ -136,10 +136,5 @@ public final class PasswordManager {
      * @param array the byte array
      * @return the hexadecimal string
      */
-    private static String toHex(byte[] array) {
-        BigInteger bi = new BigInteger(1, array);
-        String hex = bi.toString(16);
-        int paddingLength = (array.length * 2) - hex.length();
-        return paddingLength > 0 ? "0".repeat(paddingLength) + hex : hex;
-    }
+
 }
